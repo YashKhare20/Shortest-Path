@@ -94,9 +94,10 @@ public class NegativeGraph {
             gsGraph.addNode(vertex.getId()).setAttribute("ui.label", vertex.getName());
         }
 
+        int edgeCounter = 1; // Counter to ensure unique edge IDs
         for (Vertex vertex : customGraph.getVertices()) {
             for (Edge edge : customGraph.getEdges(vertex)) {
-                String edgeId = edge.getFromVertex().getId() + "-" + edge.getToVertex().getId();
+                String edgeId = edge.getFromVertex().getId() + "-" + edge.getToVertex().getId() + "-" + edgeCounter++;
                 try {
                     gsGraph.addEdge(edgeId, edge.getFromVertex().getId(), edge.getToVertex().getId())
                            .setAttribute("ui.label", edge.getWeight());
@@ -125,126 +126,3 @@ public class NegativeGraph {
         }
     }
 }
-
-// import java.io.BufferedReader;
-// import java.io.FileReader;
-// import java.io.IOException;
-// import java.util.HashMap;
-// import java.util.List;
-// import java.util.Map;
-
-// public class NegativeGraph {
-
-//     // Method to create a graph from a CSV file
-//     public static Graph createNegativeGraphFromCSV(String filePath) {
-//         Graph graph = new Graph();
-//         Map<String, Vertex> vertexMap = new HashMap<>();
-
-//         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-//             String line;
-//             int recordLimit = 10;
-//             int recordCount = 0;
-//             boolean isFirstLine = true;
-
-//             while ((line = br.readLine()) != null && recordCount < recordLimit) {
-//                 if (isFirstLine) {
-//                     isFirstLine = false;
-//                     continue;
-//                 }
-
-//                 String[] parts = line.split(",");
-//                 if (parts.length >= 11) {
-//                     double pickupLongitude = Double.parseDouble(parts[5].trim());
-//                     double pickupLatitude = Double.parseDouble(parts[6].trim());
-//                     double dropoffLongitude = Double.parseDouble(parts[9].trim());
-//                     double dropoffLatitude = Double.parseDouble(parts[10].trim());
-
-//                     String pickupId = String.format("%.4f,%.4f", pickupLatitude, pickupLongitude);
-//                     String dropoffId = String.format("%.4f,%.4f", dropoffLatitude, dropoffLongitude);
-//                     String pickupLabel = "Pickup(" + pickupId + ")";
-//                     String dropoffLabel = "Dropoff(" + dropoffId + ")";
-
-//                     Vertex pickupVertex = vertexMap.computeIfAbsent(pickupId, id -> new Vertex(pickupId, pickupLabel, "Pickup"));
-//                     Vertex dropoffVertex = vertexMap.computeIfAbsent(dropoffId, id -> new Vertex(dropoffId, dropoffLabel, "Dropoff"));
-
-//                     graph.addVertex(pickupVertex);
-//                     graph.addVertex(dropoffVertex);
-
-//                     int weight = 1;
-//                     graph.addEdge(pickupVertex, dropoffVertex, -weight);
-
-//                     recordCount++;
-//                 }
-//             }
-//         } catch (IOException e) {
-//             System.out.println("IOException occurred: " + e);
-//         }
-
-//         // Ensure all pairs of vertices have bidirectional edges with weight 0 if not connected
-//         addZeroWeightEdges(graph);
-
-//         return graph;
-//     }
-
-//     private static void addZeroWeightEdges(Graph graph) {
-//         List<Vertex> vertices = graph.getVertices();
-//         for (Vertex v1 : vertices) {
-//             for (Vertex v2 : vertices) {
-//                 if (!v1.equals(v2)) {
-//                     // Check if there is an edge from v1 to v2
-//                     boolean hasEdgeFromV1ToV2 = graph.checkEdgeExistence(v1, v2);
-//                     // Check if there is an edge from v2 to v1
-//                     boolean hasEdgeFromV2ToV1 = graph.checkEdgeExistence(v2, v1);
-
-//                     // If no edge exists from v1 to v2, add an edge with weight 0
-//                     if (!hasEdgeFromV1ToV2) {
-//                         graph.addEdge(v1, v2, 0);
-//                     }
-//                     // If no edge exists from v2 to v1, add an edge with weight 0
-//                     if (!hasEdgeFromV2ToV1) {
-//                         graph.addEdge(v2, v1, 0);
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-//     // Method to convert custom graph to GraphStream graph for visualization
-//     public static org.graphstream.graph.Graph toGraphStreamGraph(Graph customGraph) {
-//         org.graphstream.graph.Graph gsGraph = new org.graphstream.graph.implementations.SingleGraph("NegativeGraph");
-
-//         for (Vertex vertex : customGraph.getVertices()) {
-//             gsGraph.addNode(vertex.getId()).setAttribute("ui.label", vertex.getName());
-//         }
-
-//         for (Vertex vertex : customGraph.getVertices()) {
-//             for (Edge edge : customGraph.getEdges(vertex)) {
-//                 String edgeId = edge.getFromVertex().getId() + "-" + edge.getToVertex().getId();
-//                 try {
-//                     gsGraph.addEdge(edgeId, edge.getFromVertex().getId(), edge.getToVertex().getId())
-//                            .setAttribute("ui.label", edge.getWeight());
-//                 } catch (org.graphstream.graph.EdgeRejectedException e) {
-//                     // Handle duplicate edge exceptions
-//                     System.out.println("Duplicate edge rejected: " + edgeId);
-//                 }
-//             }
-//         }
-
-//         return gsGraph;
-//     }
-
-//     // Method to print vertices and edges of the graph
-//     public static void printGraph(Graph graph) {
-//         System.out.println("Vertices:");
-//         for (Vertex vertex : graph.getVertices()) {
-//             System.out.println(vertex);
-//         }
-
-//         System.out.println("Edges:");
-//         for (Vertex vertex : graph.getVertices()) {
-//             for (Edge edge : graph.getEdges(vertex)) {
-//                 System.out.println(edge);
-//             }
-//         }
-//     }
-// }
