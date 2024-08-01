@@ -3,9 +3,9 @@ package algo.project;
 public class Edge {
     private Vertex fromVertex;
     private Vertex toVertex;
-    private int weight;
+    private double weight;
 
-    public Edge(Vertex fromVertex, Vertex toVertex, int weight) {
+    public Edge(Vertex fromVertex, Vertex toVertex, double weight) {
         this.fromVertex = fromVertex;
         this.toVertex = toVertex;
         this.weight = weight;
@@ -19,7 +19,7 @@ public class Edge {
         return toVertex;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 

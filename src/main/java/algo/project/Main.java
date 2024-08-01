@@ -9,7 +9,7 @@ public class Main {
         System.setProperty("org.graphstream.ui", "swing");
 
         // Specify the path to the CSV file for positive graph
-        String csvFilePath = "shortest-path/trimmed_file.csv"; // Update with actual path
+        String csvFilePath = "trimmed_file.csv"; // Update with actual path
 
         // Initialize PositiveGraph and generate a positive graph from the CSV file
         PositiveGraph positiveGraphGenerator = new PositiveGraph();
@@ -25,7 +25,7 @@ public class Main {
         positiveViewer.setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
 
         // Specify the path to the CSV file for negative graph
-        String negativeCsvFilePath = "shortest-path/negative_file.csv"; // Update with actual path provided by the user
+        String negativeCsvFilePath = "negative_file.csv"; // Update with actual path provided by the user
 
         // Create a negative graph from the CSV file
         Graph negativeGraph = NegativeGraph.createNegativeGraphFromCSV(negativeCsvFilePath, positiveGraph);
