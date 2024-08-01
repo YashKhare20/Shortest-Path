@@ -1,5 +1,7 @@
 package algo.project;
 
+import java.util.List;
+
 import org.graphstream.ui.view.Viewer;
 
 public class Main {
@@ -9,7 +11,7 @@ public class Main {
         System.setProperty("org.graphstream.ui", "swing");
 
         // Specify the path to the CSV file for positive graph
-        String csvFilePath = "shortest-path/trimmed_file.csv"; // Update with actual path
+        String csvFilePath = "trimmed_file.csv"; // Update with actual path
 
         // Initialize PositiveGraph and generate a positive graph from the CSV file
         PositiveGraph positiveGraphGenerator = new PositiveGraph();
@@ -25,7 +27,7 @@ public class Main {
         positiveViewer.setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
 
         // Specify the path to the CSV file for negative graph
-        String negativeCsvFilePath = "shortest-path/negative_file.csv"; // Update with actual path provided by the user
+        String negativeCsvFilePath = "negative_file.csv"; // Update with actual path provided by the user
 
         // Create a negative graph from the CSV file
         Graph negativeGraph = NegativeGraph.createNegativeGraphFromCSV(negativeCsvFilePath, positiveGraph);
@@ -38,5 +40,19 @@ public class Main {
         org.graphstream.graph.Graph gsNegativeGraph = NegativeGraph.toGraphStreamGraph(negativeGraph);
         Viewer negativeViewer = gsNegativeGraph.display();
         negativeViewer.setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
+
+        // Run Bellman-Ford algorithm to find negative weight cycle
+        BellmanFord bellmanFord = new BellmanFord(negativeGraph);
+        boolean hasNegativeCycle = bellmanFord.run(negativeGraph.getVertices().get(0)); // Assume the first vertex as source
+
+        if (hasNegativeCycle) {
+            System.out.println("Negative weight cycle detected:");
+            List<Vertex> cycle = bellmanFord.getNegativeCycle();
+            for (Vertex v : cycle) {
+                System.out.println(v);
+            }
+        } else {
+            System.out.println("No negative weight cycle detected.");
+        }
     }
 }
