@@ -26,6 +26,18 @@ public class Graph {
         adjacencyList.get(fromVertex).add(new Edge(fromVertex, toVertex, weight));
     }
 
+    // Method to add a bidirectional edge between two vertices
+    public void addBidirectionalEdge(Vertex fromVertex, Vertex toVertex, double weight) {
+        // Ensure both vertices are present in the adjacency list
+        addVertex(fromVertex);
+        addVertex(toVertex);
+        // Add the edge from fromVertex to toVertex with the given weight
+        adjacencyList.get(fromVertex).add(new Edge(fromVertex, toVertex, weight));
+        // Add the edge from toVertex to fromVertex with the given weight
+        adjacencyList.get(toVertex).add(new Edge(toVertex, fromVertex, weight));
+    }
+
+
     // Method to get all vertices in the graph
     public List<Vertex> getVertices() {
         // Return a list of all vertices from the keys of the adjacency list

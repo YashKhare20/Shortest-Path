@@ -149,7 +149,7 @@ public class PositiveGraph {
                     Vertex toVertex = grid[i][j + 1];
                     if (toVertex != null) {
                         double weight = calculateEuclideanDistance(fromVertex.getLatitude(), fromVertex.getLongitude(), toVertex.getLatitude(), toVertex.getLongitude());
-                        graph.addEdge(fromVertex, toVertex, weight);
+                        graph.addBidirectionalEdge(fromVertex, toVertex, weight);
                         System.out.println("Added edge from " + fromVertex.getId() + " to " + toVertex.getId() + " with weight " + weight);
                     }
                 }
@@ -159,7 +159,7 @@ public class PositiveGraph {
                     Vertex toVertex = grid[i + 1][j];
                     if (toVertex != null) {
                         double weight = calculateEuclideanDistance(fromVertex.getLatitude(), fromVertex.getLongitude(), toVertex.getLatitude(), toVertex.getLongitude());
-                        graph.addEdge(fromVertex, toVertex, weight);
+                        graph.addBidirectionalEdge(fromVertex, toVertex, weight);
                         System.out.println("Added edge from " + fromVertex.getId() + " to " + toVertex.getId() + " with weight " + weight);
                     }
                 }
@@ -213,4 +213,3 @@ public class PositiveGraph {
         }
     }
 }
-
