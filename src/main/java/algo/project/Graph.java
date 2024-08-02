@@ -17,17 +17,8 @@ public class Graph {
         adjacencyList.putIfAbsent(vertex, new ArrayList<>());
     }
 
-    // Method to add an edge between two vertices
-    public void addEdge(Vertex fromVertex, Vertex toVertex, double weight) {
-        // Ensure both vertices are present in the adjacency list
-        addVertex(fromVertex);
-        addVertex(toVertex);
-        // Add the edge from fromVertex to toVertex with the given weight
-        adjacencyList.get(fromVertex).add(new Edge(fromVertex, toVertex, weight));
-    }
-
     // Method to add a bidirectional edge between two vertices
-    public void addBidirectionalEdge(Vertex fromVertex, Vertex toVertex, double weight) {
+    public void addEdge(Vertex fromVertex, Vertex toVertex, double weight) {
         // Ensure both vertices are present in the adjacency list
         addVertex(fromVertex);
         addVertex(toVertex);

@@ -13,7 +13,6 @@ public class NegativeGraph {
         Graph negativeGraph = new Graph(); // Create a new graph instance to store the negative graph
 
         // Add all vertices to the ArrayList
-        // Create a new ArrayList to hold Vertex objects
         ArrayList<Vertex> vertices = new ArrayList<>(positiveGraph.getVertices()); // Get all vertices from the positive graph
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) { // Open the CSV file for reading
@@ -38,9 +37,9 @@ public class NegativeGraph {
                     Vertex fromVertex = findVertexById(vertices, fromId); // Find the 'from' vertex in the list
                     Vertex toVertex = findVertexById(vertices, toId); // Find the 'to' vertex in the list
 
-                    // Add an edge between the vertices if they are found
+                    // Add a bidirectional edge between the vertices if they are found
                     if (fromVertex != null && toVertex != null) {
-                        negativeGraph.addEdge(fromVertex, toVertex, -weight); // Add edge with negative weight
+                        negativeGraph.addEdge(fromVertex, toVertex, -weight); // Add bidirectional edge with negative weight
                     }
                 }
             }
@@ -55,16 +54,10 @@ public class NegativeGraph {
                 if (!v1.equals(v2)) { // Avoid self-loops
                     // Check if there is an edge from v1 to v2
                     boolean hasEdgeFromV1ToV2 = negativeGraph.checkEdgeExistence(v1, v2);
-                    // Check if there is an edge from v2 to v1
-                    boolean hasEdgeFromV2ToV1 = negativeGraph.checkEdgeExistence(v2, v1);
 
-                    // If no edge exists from v1 to v2, add an edge with weight 0
+                    // If no edge exists from v1 to v2, add a bidirectional edge with weight 0
                     if (!hasEdgeFromV1ToV2) {
                         negativeGraph.addEdge(v1, v2, 0);
-                    }
-                    // If no edge exists from v2 to v1, add an edge with weight 0
-                    if (!hasEdgeFromV2ToV1) {
-                        negativeGraph.addEdge(v2, v1, 0);
                     }
                 }
             }
