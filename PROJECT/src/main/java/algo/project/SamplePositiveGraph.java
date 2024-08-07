@@ -11,7 +11,7 @@ public class SamplePositiveGraph {
     public SampleGraph createGraph(String positiveGraphFile, String closeRedPinsFile) throws IOException {
         SampleGraph graph = new SampleGraph();
 
-        // Read PositiveGraphAddresses.csv and add blue pins and garage
+        // Read PositiveGraphAddresses.csv and add orange pin as garage
         BufferedReader positiveGraphReader = new BufferedReader(new FileReader(positiveGraphFile));
         String line;
         boolean isFirstLine = true;
@@ -38,7 +38,7 @@ public class SamplePositiveGraph {
         }
         positiveGraphReader.close();
 
-        // Read close_red_pins.csv and add red pins as pickups and dropoffs
+        // Read pickup_dropoff_addresses.csv and add red pins as pickups and green pins as dropoffs
         BufferedReader redPinsReader = new BufferedReader(new FileReader(closeRedPinsFile));
         isFirstLine = true;
         List<SampleVertex> pickups = new ArrayList<>();
@@ -73,7 +73,7 @@ public class SamplePositiveGraph {
         }
         redPinsReader.close();
 
-        // Create edges between red pins using blue pins as intermediaries
+        // Create edges between red/green pins using blue pins as intermediaries
         List<SampleVertex> bluePins = graph.getVerticesByType(VertexType.NORMAL);
         for (SampleVertex pickup : pickups) {
             for (SampleVertex bluePin : bluePins) {
@@ -93,13 +93,12 @@ public class SamplePositiveGraph {
     }
 
     private double calculateDistance(SampleVertex v1, SampleVertex v2) {
-        // Implement your distance calculation here (e.g., Haversine formula)
         double lat1 = v1.getLatitude();
         double lon1 = v1.getLongitude();
         double lat2 = v2.getLatitude();
         double lon2 = v2.getLongitude();
-        
-        // For simplicity, let's use Euclidean distance. Replace with Haversine for more accuracy.
+
+        // Use Euclidean distance
         return Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lon1 - lon2, 2));
     }
 }
