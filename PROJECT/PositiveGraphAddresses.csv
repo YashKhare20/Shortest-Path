@@ -1,9 +1,9 @@
-AddressName,Longitude,Altitude,GridRow,GridColumn
+AddressName,Latitude,Longitude,GridRow,GridColumn
 Rivian-Tenth Ave & W 15th St,40.742784,-74.00773322,0,0
 Chelsea Market-Tenth Ave & W 16th St,40.74342945,-74.00732038,0,1
 Artichoke Basille's Pizza-Tenth Ave & W 17th St,40.74404281,-74.00680508,0,2
 Chelsea Square Market-Tenth Ave & W 18th St,40.74462282,-74.00636853,0,3
-Urbana Caf¨¦ and Gallery-Tenth Ave & W 19th St,40.74521204,-74.00596014,0,4
+Urbana Cafï¿½ï¿½ and Gallery-Tenth Ave & W 19th St,40.74521204,-74.00596014,0,4
 The High Line Hotel-Tenth Ave & W 20th St,40.74580153,-74.00553669,0,5
 Guardian Angel Worship Site-Tenth Ave & W 21th St,40.74638648,-74.00510695,0,6
 Clement Clarke Moore Park-Tenth Ave & W 22nd St,40.74700101,-74.00463867,0,7
@@ -69,7 +69,7 @@ Starbucks-Park Ave S & E 15th St,40.73530583,-73.98984298,6,0
 FIFTYLAN Union Square-Park Ave S & E 16th St,40.73591432,-73.98938864,6,1
 Petco-Park Ave S & E 17th St,40.73650521,-73.98898559,6,2
 Rothmans-Park Ave S & E 18th St,40.73707793,-73.98853455,6,3
-Union Square Caf¨¦-Park Ave S & E 19th St,40.73766884,-73.98808351,6,4
+Union Square Cafï¿½ï¿½-Park Ave S & E 19th St,40.73766884,-73.98808351,6,4
 Barbounia-Park Ave S & E 20th St,40.73827794,-73.98768045,6,5
 Blue Bottle Coffee-Park Ave S & E 21st St,40.73883248,-73.98720541,6,6
 European Wax Center-Park Ave S & E 22nd St,40.73947794,-73.98675435,6,7

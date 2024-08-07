@@ -153,10 +153,10 @@ public class SampleGraph {
         StringBuilder sb = new StringBuilder();
         sb.append("Graph:\n");
 
-        sb.append("Normal Vertices:\n");
-        for (SampleVertex vertex : allVertices.values()) {
-            sb.append(vertex.toString()).append("\n");  // Add each vertex to the string
-        }
+        // sb.append("Normal Vertices:\n");
+        // for (SampleVertex vertex : allVertices.values()) {
+        //     sb.append(vertex.toString()).append("\n");  // Add each vertex to the string
+        // }
 
         sb.append("Different Type Vertices:\n");
         for (Map.Entry<VertexType, ArrayList<SampleVertex>> entry : differentVertices.entrySet()) {
