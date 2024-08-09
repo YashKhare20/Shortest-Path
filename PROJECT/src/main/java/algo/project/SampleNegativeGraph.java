@@ -124,4 +124,26 @@ public class SampleNegativeGraph extends SampleGraph {
         }
     }
 
+    // Method to convert custom graph to GraphStream graph for visualization
+    public static org.graphstream.graph.Graph toGraphStreamGraph(SampleGraph customGraph) {
+        org.graphstream.graph.Graph gsGraph = new org.graphstream.graph.implementations.SingleGraph("NegativeGraph");
+
+        for (SampleVertex vertex : customGraph.getAllVertices().values()) {
+            gsGraph.addNode(vertex.getName()).setAttribute("ui.label", vertex.getName());
+        }
+
+        int edgeCounter = 1; // Counter to ensure unique edge IDs
+        for (SampleEdge edge : customGraph.getEdges()) {
+            String edgeId = edge.getVertexF().getName() + "-" + edge.getVertexT().getName() + "-" + edgeCounter++;
+            try {
+                gsGraph.addEdge(edgeId, edge.getVertexF().getName(), edge.getVertexT().getName())
+                        .setAttribute("ui.label", edge.getWeight());
+            } catch (org.graphstream.graph.EdgeRejectedException e) {
+                // Handle duplicate edge exceptions
+                System.out.println("Duplicate edge rejected: " + edgeId);
+            }
+        }
+
+        return gsGraph;
+    }
 }
