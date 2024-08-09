@@ -99,7 +99,7 @@ public class SamplePositiveGraph {
         double lon2 = v2.getLongitude();
 
         // Use Euclidean distance
-        // Multiplying by 100 to show distances in miles
+        // Multiplying by 100 to show distances more realistic (consider distances in miles)
         return 100*Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lon1 - lon2, 2));
     }
 }
