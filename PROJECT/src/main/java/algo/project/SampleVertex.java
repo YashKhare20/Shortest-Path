@@ -21,6 +21,12 @@ public class SampleVertex {
     // List of edges connected to this vertex
     private ArrayList<SampleEdge> neighbors;
 
+    // Row index in the grid where the vertex is located
+    private final int mapRow;
+
+    // Column index in the grid where the vertex is located
+    private final int mapCol;
+
     // Status of the vertex, used in algorithms like Dijkstra's (e.g., visited/unvisited)
     private int status;
 
@@ -37,13 +43,17 @@ public class SampleVertex {
      * @param type the type of the vertex.
      * @param latitude the latitude of the vertex.
      * @param longitude the longitude of the vertex.
+     * @param mapRow the row in the grid where the vertex is located.
+     * @param mapCol the column in the grid where the vertex is located.
      */
-    public SampleVertex(String name, VertexType type, double latitude, double longitude) {
+    public SampleVertex(String name, VertexType type, double latitude, double longitude, int mapRow, int mapCol) {
         this.name = name; // Set vertex name
         this.type = type; // Set vertex type
         this.latitude = latitude; // Set latitude
         this.longitude = longitude; // Set longitude
         this.neighbors = new ArrayList<>(); // Initialize the list of neighbors
+        this.mapRow = mapRow; // Set the row index in the grid
+        this.mapCol = mapCol; // Set the column index in the grid
 
         this.status = 0; // Initialize status (default 0, e.g., unvisited)
         this.distance = 0; // Initialize distance (default 0, e.g., infinite distance)
@@ -114,6 +124,24 @@ public class SampleVertex {
     }
 
     /**
+     * Returns the column index of the vertex in the grid.
+     *
+     * @return the column index.
+     */
+    public int getMapCol() {
+        return mapCol;
+    }
+
+    /**
+     * Returns the row index of the vertex in the grid.
+     *
+     * @return the row index.
+     */
+    public int getMapRow() {
+        return mapRow;
+    }
+
+    /**
      * Returns the status of the vertex.
      *
      * @return the status of the vertex.
@@ -173,7 +201,7 @@ public class SampleVertex {
      * @return a new SampleVertex instance with the same attributes and neighbors.
      */
     public SampleVertex copy() {
-        SampleVertex copy = new SampleVertex(name, type, latitude, longitude);
+        SampleVertex copy = new SampleVertex(name, type, latitude, longitude, this.mapRow, this.mapCol);
         for (SampleEdge edge : neighbors) {
             copy.addNeighbor(edge.copy()); // Create a deep copy of each neighbor edge
         }

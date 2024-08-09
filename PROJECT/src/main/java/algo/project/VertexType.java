@@ -4,7 +4,7 @@ package algo.project;
 public enum VertexType {
     PICKUP,
 
-    DELIVERY,
+    DROPOFF,
 
     NORMAL,
 

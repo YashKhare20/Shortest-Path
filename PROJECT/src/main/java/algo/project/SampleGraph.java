@@ -22,7 +22,7 @@ public class SampleGraph {
         differentVertices.put(VertexType.NORMAL, new ArrayList<>());  // Initialize list for normal vertices
         differentVertices.put(VertexType.GARAGE, new ArrayList<>());  // Initialize list for garage vertices
         differentVertices.put(VertexType.PICKUP, new ArrayList<>());  // Initialize list for pickup vertices
-        differentVertices.put(VertexType.DELIVERY, new ArrayList<>());  // Initialize list for delivery vertices
+        differentVertices.put(VertexType.DROPOFF, new ArrayList<>());  // Initialize list for delivery vertices
 
         edges = new ArrayList<>();  // Initialize list to store edges
     }
@@ -66,6 +66,22 @@ public class SampleGraph {
      */
     public ArrayList<SampleVertex> getVerticesByType(VertexType type) {
         return differentVertices.get(type);  // Retrieve list of vertices by type
+    }
+
+    /**
+     * Gets a vertex by its row and column position.
+     *
+     * @param row the row of the vertex.
+     * @param col the column of the vertex.
+     * @return the vertex at the specified row and column, or null if not found.
+     */
+    public SampleVertex getVertexByRowAndCol(int row, int col) {
+        for (SampleVertex vertex : allVertices.values()) {
+            if (vertex.getMapRow() == row && vertex.getMapCol() == col) {
+                return vertex;  // Return vertex at specified position
+            }
+        }
+        return null;  // Return null if no vertex is found at the specified row and column
     }
 
     /**
@@ -150,10 +166,10 @@ public class SampleGraph {
             }
         }
 
-        sb.append("Edges:\n");
-        for (SampleEdge edge : edges) {
-            sb.append(edge.toString()).append("\n");  // Add each edge to the string
-        }
+        // sb.append("Edges:\n");
+        // for (SampleEdge edge : edges) {
+        //     sb.append(edge.toString()).append("\n");  // Add each edge to the string
+        // }
 
         return sb.toString();  // Return the complete string representation of the graph
     }

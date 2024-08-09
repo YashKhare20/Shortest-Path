@@ -72,7 +72,7 @@ public class SampleNegativeGraph extends SampleGraph {
                     SampleVertex fromVertex = this.getVertexByName(fromName);
                     // Create a new vertex if not present. Latitude, Longitude, GridRow, and GridCol are 0, not useful here.
                     if (fromVertex == null) {
-                        fromVertex = new SampleVertex(fromName, VertexType.PICKUP, 0, 0);
+                        fromVertex = new SampleVertex(fromName, VertexType.PICKUP, 0, 0, 0, 0);
                         this.addVertex(fromVertex);  // Add the vertex to the graph.
                     }
 
@@ -80,7 +80,7 @@ public class SampleNegativeGraph extends SampleGraph {
                     SampleVertex toVertex = this.getVertexByName(toName);
                     // Create a new vertex if not present. Latitude, Longitude, GridRow, and GridCol are 0, not useful here.
                     if (toVertex == null) {
-                        toVertex = new SampleVertex(toName, VertexType.DELIVERY, 0, 0);
+                        toVertex = new SampleVertex(toName, VertexType.DROPOFF, 0, 0, 0, 0);
                         this.addVertex(toVertex);  // Add the vertex to the graph.
                     }
 
