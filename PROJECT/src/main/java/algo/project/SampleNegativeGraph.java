@@ -72,7 +72,7 @@ public class SampleNegativeGraph extends SampleGraph {
                     SampleVertex fromVertex = this.getVertexByName(fromName);
                     // Create a new vertex if not present. Latitude, Longitude, GridRow, and GridCol are 0, not useful here.
                     if (fromVertex == null) {
-                        fromVertex = new SampleVertex(fromName, VertexType.PICKUP, 0, 0, 0, 0);
+                        fromVertex = new SampleVertex(fromName, VertexType.PICKUP, 0, 0);
                         this.addVertex(fromVertex);  // Add the vertex to the graph.
                     }
 
@@ -80,7 +80,7 @@ public class SampleNegativeGraph extends SampleGraph {
                     SampleVertex toVertex = this.getVertexByName(toName);
                     // Create a new vertex if not present. Latitude, Longitude, GridRow, and GridCol are 0, not useful here.
                     if (toVertex == null) {
-                        toVertex = new SampleVertex(toName, VertexType.DELIVERY, 0, 0, 0, 0);
+                        toVertex = new SampleVertex(toName, VertexType.DELIVERY, 0, 0);
                         this.addVertex(toVertex);  // Add the vertex to the graph.
                     }
 
@@ -124,26 +124,4 @@ public class SampleNegativeGraph extends SampleGraph {
         }
     }
 
-    // Method to convert custom graph to GraphStream graph for visualization
-    public static org.graphstream.graph.Graph toGraphStreamGraph(SampleGraph customGraph) {
-        org.graphstream.graph.Graph gsGraph = new org.graphstream.graph.implementations.SingleGraph("NegativeGraph");
-
-        for (SampleVertex vertex : customGraph.getAllVertices().values()) {
-            gsGraph.addNode(vertex.getName()).setAttribute("ui.label", vertex.getName());
-        }
-
-        int edgeCounter = 1; // Counter to ensure unique edge IDs
-        for (SampleEdge edge : customGraph.getEdges()) {
-            String edgeId = edge.getVertexF().getName() + "-" + edge.getVertexT().getName() + "-" + edgeCounter++;
-            try {
-                gsGraph.addEdge(edgeId, edge.getVertexF().getName(), edge.getVertexT().getName())
-                        .setAttribute("ui.label", edge.getWeight());
-            } catch (org.graphstream.graph.EdgeRejectedException e) {
-                // Handle duplicate edge exceptions
-                System.out.println("Duplicate edge rejected: " + edgeId);
-            }
-        }
-
-        return gsGraph;
-    }
 }

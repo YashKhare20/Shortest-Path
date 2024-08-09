@@ -69,22 +69,6 @@ public class SampleGraph {
     }
 
     /**
-     * Gets a vertex by its row and column position.
-     *
-     * @param row the row of the vertex.
-     * @param col the column of the vertex.
-     * @return the vertex at the specified row and column, or null if not found.
-     */
-    public SampleVertex getVertexByRowAndCol(int row, int col) {
-        for (SampleVertex vertex : allVertices.values()) {
-            if (vertex.getMapRow() == row && vertex.getMapCol() == col) {
-                return vertex;  // Return vertex at specified position
-            }
-        }
-        return null;  // Return null if no vertex is found at the specified row and column
-    }
-
-    /**
      * Adds an edge to the graph.
      *
      * @param edge the edge to be added.

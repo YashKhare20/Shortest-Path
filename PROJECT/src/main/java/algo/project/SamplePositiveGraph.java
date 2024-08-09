@@ -8,83 +8,83 @@ import java.util.List;
 
 public class SamplePositiveGraph {
 
-    public SampleGraph createGraph(String positiveGraphFile, String closeRedPinsFile) throws IOException {
+    public SampleGraph createGraph(String positiveGraphFile) throws IOException {
         SampleGraph graph = new SampleGraph();
 
-        // Read PositiveGraphAddresses.csv and add orange pin as garage
+        // Read positive_file.csv and add vertices based on the 'type' column
         BufferedReader positiveGraphReader = new BufferedReader(new FileReader(positiveGraphFile));
         String line;
         boolean isFirstLine = true;
-        boolean isSecondLine = true;
 
-        while ((line = positiveGraphReader.readLine()) != null) {
-            if (isFirstLine) {
-                isFirstLine = false;
-                continue;
-            }
-            String[] parts = line.split(",");
-            String name = parts[0];
-            double latitude = Double.parseDouble(parts[1]);
-            double longitude = Double.parseDouble(parts[2]);
-            int mapRow = Integer.parseInt(parts[3]);
-            int mapCol = Integer.parseInt(parts[4]);
-
-            VertexType type = isSecondLine ? VertexType.GARAGE : VertexType.NORMAL;
-            isSecondLine = false;
-
-            SampleVertex vertex = new SampleVertex(name, type, latitude, longitude, mapRow, mapCol);
-            graph.addVertex(vertex);
-            // System.out.println("Added Normal or Garage Vertex: " + vertex);
-        }
-        positiveGraphReader.close();
-
-        // Read pickup_dropoff_addresses.csv and add red pins as pickups and green pins as dropoffs
-        BufferedReader redPinsReader = new BufferedReader(new FileReader(closeRedPinsFile));
-        isFirstLine = true;
+        SampleVertex garageVertex = null;
         List<SampleVertex> pickups = new ArrayList<>();
         List<SampleVertex> dropoffs = new ArrayList<>();
-        int lineNumber = 0;
+        List<SampleVertex> normals = new ArrayList<>();
 
-        while ((line = redPinsReader.readLine()) != null) {
+        while ((line = positiveGraphReader.readLine()) != null) {
             if (isFirstLine) {  // Skip header
                 isFirstLine = false;
                 continue;
             }
             String[] parts = line.split(",");
-            String name = parts[19];
-            double latitude = Double.parseDouble(parts[6]);  // pickup_latitude
-            double longitude = Double.parseDouble(parts[5]);  // pickup_longitude
+            String address = parts[2];
+            double latitude = Double.parseDouble(parts[1]);
+            double longitude = Double.parseDouble(parts[0]);
+            String type = parts[3];
 
-            if (lineNumber % 2 == 0) { // Even rows
-                String dropoffName = name;
-                SampleVertex dropoff = new SampleVertex(dropoffName, VertexType.DELIVERY, latitude, longitude, 0, 0);
-                dropoffs.add(dropoff);
-                graph.addVertex(dropoff);
-                // System.out.println("Added Dropoff Vertex: " + dropoff);
-            } else { // Odd rows
-                String pickupName = name;
-                SampleVertex pickup = new SampleVertex(pickupName, VertexType.PICKUP, latitude, longitude, 0, 0);
-                pickups.add(pickup);
-                graph.addVertex(pickup);
-                // System.out.println("Added Pickup Vertex: " + pickup);
+            SampleVertex vertex;
+
+            switch (type.toLowerCase()) {
+                case "garage":
+                    vertex = new SampleVertex(address, VertexType.GARAGE, latitude, longitude);
+                    garageVertex = vertex;
+                    graph.addVertex(vertex);
+                    break;
+
+                case "normal":
+                    vertex = new SampleVertex(address, VertexType.NORMAL, latitude, longitude);
+                    normals.add(vertex);
+                    graph.addVertex(vertex);
+                    break;
+
+                case "pickup":
+                    vertex = new SampleVertex(address, VertexType.PICKUP, latitude, longitude);
+                    pickups.add(vertex);
+                    graph.addVertex(vertex);
+                    break;
+
+                case "dropoff":
+                    vertex = new SampleVertex(address, VertexType.DELIVERY, latitude, longitude);
+                    dropoffs.add(vertex);
+                    graph.addVertex(vertex);
+                    break;
+
+                default:
+                    System.out.println("Unknown type: " + type);
             }
-
-            lineNumber++;
         }
-        redPinsReader.close();
+        positiveGraphReader.close();
 
-        // Create edges between red/green pins using blue pins as intermediaries
-        List<SampleVertex> bluePins = graph.getVerticesByType(VertexType.NORMAL);
-        for (SampleVertex pickup : pickups) {
-            for (SampleVertex bluePin : bluePins) {
-                SampleEdge edge = new SampleEdge(pickup, bluePin, calculateDistance(pickup, bluePin));
+        // Create edges between garage and all normal vertices
+        if (garageVertex != null) {
+            for (SampleVertex normal : normals) {
+                SampleEdge edge = new SampleEdge(garageVertex, normal, calculateDistance(garageVertex, normal));
                 graph.addEdge(edge);
             }
         }
 
+        // Create edges between pickups and normal vertices
+        for (SampleVertex pickup : pickups) {
+            for (SampleVertex normal : normals) {
+                SampleEdge edge = new SampleEdge(pickup, normal, calculateDistance(pickup, normal));
+                graph.addEdge(edge);
+            }
+        }
+
+        // Create edges between dropoffs and normal vertices
         for (SampleVertex dropoff : dropoffs) {
-            for (SampleVertex bluePin : bluePins) {
-                SampleEdge edge = new SampleEdge(dropoff, bluePin, calculateDistance(dropoff, bluePin));
+            for (SampleVertex normal : normals) {
+                SampleEdge edge = new SampleEdge(dropoff, normal, calculateDistance(dropoff, normal));
                 graph.addEdge(edge);
             }
         }
@@ -99,6 +99,7 @@ public class SamplePositiveGraph {
         double lon2 = v2.getLongitude();
 
         // Use Euclidean distance
-        return Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lon1 - lon2, 2));
+        // Multiplying by 100 to show distances in miles
+        return 100*Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lon1 - lon2, 2));
     }
 }
